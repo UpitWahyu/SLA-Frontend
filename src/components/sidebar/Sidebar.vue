@@ -1,5 +1,5 @@
 <template>
-  <aside v-if="staggingStore.ready" :class="['fixed md:static inset-y-0 left-0 z-40 w-64', 'bg-gray-800 border-r border-gray-700', 'transform transition-transform', open ? 'translate-x-0' : '-translate-x-full', 'md:translate-x-0']">
+  <aside :class="['fixed md:static inset-y-0 left-0 z-40 w-64', 'bg-gray-800 border-r border-gray-700', 'transform transition-transform', open ? 'translate-x-0' : '-translate-x-full', 'md:translate-x-0']">
     <div class="flex flex-col h-full">
       <!-- LOGO -->
       <div class="flex items-center justify-center h-16 border-b border-gray-700">
@@ -44,7 +44,7 @@
           Stagging
         </SidebarItem>
 
-        <SidebarItem v-if="staggingStore.data?.code" to="/dashboard/settings">
+        <SidebarItem to="/dashboard/settings">
           <template #icon>
             <!-- Document SVG -->
             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 50 50">
@@ -67,24 +67,12 @@
 import SidebarItem from "./SidebarItem.vue";
 import SidebarBottom from "./SidebarBottom.vue";
 import { useAuthStore } from "@/stores/auth";
-import { useStaggingStore } from "@/stores/stagging";
-import { onMounted } from "vue";
 
 const authStore = useAuthStore();
 authStore.loadUserFromToken();
-
-const staggingStore = useStaggingStore();
-
-onMounted(() => {
-  staggingStore.fetch();
-});
 
 defineProps({
   open: Boolean,
 });
 defineEmits(["close"]);
-
-onMounted(() => {
-  staggingStore.fetch();
-});
 </script>
