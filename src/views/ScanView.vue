@@ -97,7 +97,7 @@ import { ref, onMounted, onUnmounted, watch } from "vue";
 import { useRoute, RouterLink, onBeforeRouteLeave } from "vue-router";
 import api from "@/lib/axios";
 import { BrowserMultiFormatReader } from "@zxing/browser";
-import { BarcodeFormat, DecodeHintType, BrowserMultiFormatReader } from "@zxing/library";
+import { BarcodeFormat, DecodeHintType } from "@zxing/library";
 import { useAuthStore } from "@/stores/auth";
 import { formatTimestamp } from "@/utils/date";
 
