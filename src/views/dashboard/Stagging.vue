@@ -12,7 +12,7 @@
             <div class="font-semibold text-lg">{{ s.code }}</div>
             <div class="text-xs text-gray-400">
               Link:
-              <span class="font-mono text-pink-400">{{ s.slug }}</span>
+              <RouterLink :to="`/s/${s.slug}`" class="font-mono text-pink-400 cursor-pointer">{{ s.slug }}</RouterLink>
             </div>
           </div>
         </div>
@@ -38,6 +38,7 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
+import { RouterLink } from "vue-router";
 import DashboardLayout from "@/layouts/DashboardLayout.vue";
 import api from "@/lib/axios";
 

@@ -97,7 +97,7 @@ import { ref, onMounted, onUnmounted, watch } from "vue";
 import { useRoute, RouterLink, onBeforeRouteLeave } from "vue-router";
 import api from "@/lib/axios";
 import { BrowserMultiFormatReader } from "@zxing/browser";
-import { BarcodeFormat, DecodeHintType } from "@zxing/library";
+import { BarcodeFormat, DecodeHintType, BrowserMultiFormatReader } from "@zxing/library";
 import { useAuthStore } from "@/stores/auth";
 import { formatTimestamp } from "@/utils/date";
 
@@ -140,8 +140,13 @@ const checkSlug = async () => {
 
 const initScanner = async () => {
   const hints = new Map();
-  hints.set(DecodeHintType.POSSIBLE_FORMATS, [BarcodeFormat.CODE_128]);
+
+  // ✅ Semua 1D barcode
+  hints.set(DecodeHintType.POSSIBLE_FORMATS, [BarcodeFormat.CODE_128, BarcodeFormat.CODE_39, BarcodeFormat.CODE_93, BarcodeFormat.EAN_13, BarcodeFormat.EAN_8, BarcodeFormat.ITF, BarcodeFormat.UPC_A, BarcodeFormat.UPC_E, BarcodeFormat.CODABAR, BarcodeFormat.RSS_14, BarcodeFormat.RSS_EXPANDED]);
+
+  // bantu scanner lebih agresif
   hints.set(DecodeHintType.TRY_HARDER, true);
+  hints.set(DecodeHintType.PURE_BARCODE, false);
 
   reader = new BrowserMultiFormatReader(hints);
 
@@ -149,8 +154,13 @@ const initScanner = async () => {
     {
       video: {
         facingMode: { ideal: "environment" },
-        width: { ideal: 640 },
-        height: { ideal: 480 },
+
+        // ✅ naikkan resolusi
+        width: { ideal: 1280, max: 1920 },
+        height: { ideal: 720, max: 1080 },
+
+        // optional: minta frame rate lebih tinggi
+        frameRate: { ideal: 30 },
       },
     },
     video.value,
