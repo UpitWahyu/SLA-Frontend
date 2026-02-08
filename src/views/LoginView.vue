@@ -82,7 +82,7 @@ const submitSlug = async () => {
   const cleanSlug = extractSlug(slug.value);
 
   if (!cleanSlug) {
-    slugError.value = "Slug tidak valid";
+    slugError.value = "Kode tidak valid";
     checkingSlug.value = false;
     return;
   }
