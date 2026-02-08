@@ -10,9 +10,14 @@
 
     <!-- Content -->
     <div v-else class="max-w-6xl mx-auto">
-      <h1 class="text-2xl font-bold mb-1">Data AWB</h1>
+      <div class="mb-4 flex items-start justify-between">
+        <div>
+          <h1 class="text-2xl font-bold mb-1">Data AWB</h1>
+          <p class="text-gray-400">Stagging: {{ stagging?.code }}</p>
+        </div>
 
-      <p class="text-gray-400 mb-6">Stagging: {{ stagging?.code }}</p>
+        <RouterLink :to="{ name: 'scan', params: { slug } }" class="ml-3 shrink-0 px-5 py-1.5 rounded-lg bg-pink-600 hover:bg-pink-700 text-sm transition"> Scan </RouterLink>
+      </div>
 
       <!-- FILTER -->
       <div class="flex flex-wrap gap-3 mb-4 items-center">
@@ -118,7 +123,6 @@ async function fetchUz() {
 
     uzList.value = Array.isArray(res.data.data) ? res.data.data : [];
   } catch (err) {
-    console.error("Gagal ambil UZ", err);
     uzList.value = [];
   }
 }
@@ -137,11 +141,8 @@ async function fetchAwb() {
       },
     });
 
-    console.log("AWB data:", res.data);
-
     awbList.value = Array.isArray(res.data.data) ? res.data.data : [];
   } catch (err) {
-    console.error("Gagal ambil AWB", err);
     awbList.value = [];
   }
 }

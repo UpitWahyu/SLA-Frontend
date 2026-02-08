@@ -3,7 +3,7 @@
     <div class="flex flex-col h-full">
       <!-- LOGO -->
       <div class="flex items-center justify-center h-16 border-b border-gray-700">
-        <img src="@/assets/img/anteraja.png" class="w-9 h-9" />
+        <img src="@/assets/img/logo.webp" class="w-9 h-9 rounded-full" />
         <span class="ml-2 font-bold text-pink-500">Dashboard</span>
       </div>
 

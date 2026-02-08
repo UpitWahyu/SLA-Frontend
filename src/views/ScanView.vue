@@ -22,6 +22,7 @@
 
         <!-- BUTTON DASHBOARD -->
         <RouterLink v-if="auth.user" to="/dashboard" class="ml-3 shrink-0 px-3 py-1.5 rounded-lg bg-pink-600 hover:bg-pink-700 text-sm transition">Dashboard</RouterLink>
+        <RouterLink v-if="!auth.user" to="/" class="ml-3 shrink-0 px-3 py-1.5 rounded-lg bg-pink-600 hover:bg-pink-700 text-sm transition">Login</RouterLink>
       </div>
 
       <!-- Scanner Card -->
@@ -42,6 +43,8 @@
           <input v-model="scannedText" type="text" placeholder="Scan barcode atau ketik manual" class="w-full p-3 rounded-lg bg-gray-900 border border-gray-700 text-pink-400 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-pink-500" />
 
           <button @click="submitScan" class="w-full mt-2 py-2 rounded-lg bg-pink-600 hover:bg-pink-700 transition">Submit</button>
+
+          <RouterLink :to="{ name: 'data-awb', params: { slug } }" class="block w-full mt-2 py-2 text-center rounded-lg bg-yellow-600 hover:bg-yellow-700 transition"> Data AWB </RouterLink>
         </div>
       </div>
 

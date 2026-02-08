@@ -6,10 +6,10 @@
     <button v-if="authStore.role === 'owner'" @click="showModal = true" class="px-4 py-2 bg-pink-500 hover:bg-pink-600 text-white rounded shadow">Upload XLSX</button>
 
     <!-- HEADER TABLE -->
-    <div class="flex items-center justify-between mt-6 mb-3">
+    <div class="flex flex-col gap-3 mt-6 mb-3 md:flex-row md:items-center md:justify-between">
       <h2 class="text-lg font-semibold">List AWB</h2>
 
-      <div class="flex items-center gap-2">
+      <div class="flex flex-wrap items-center gap-2">
         <button @click="exportPng" class="p-2 rounded hover:bg-gray-700 transition" title="Export PNG">
           <!-- download icon -->
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -107,7 +107,16 @@
 
             <div class="flex justify-end gap-2">
               <button type="button" @click="showModal = false" class="px-3 py-1 rounded bg-gray-600 hover:bg-gray-700 text-white">Cancel</button>
-              <button type="submit" class="px-3 py-1 rounded bg-pink-500 hover:bg-pink-600 text-white" :disabled="!file">Upload</button>
+              <button type="submit" :disabled="!file || uploading" class="px-3 py-1 rounded flex items-center gap-2 bg-pink-500 hover:bg-pink-600 text-white disabled:opacity-60 disabled:cursor-not-allowed">
+                <svg v-if="uploading" class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+                </svg>
+
+                <span>
+                  {{ uploading ? "Uploading..." : "Upload" }}
+                </span>
+              </button>
             </div>
           </form>
         </div>
@@ -146,6 +155,7 @@ const selectedHeaders = ref([]);
 const COLUMN_STORAGE_KEY = "awb_selected_columns";
 
 const showColumnModal = ref(false);
+const uploading = ref(false);
 
 const tableRef = ref(null);
 
@@ -345,7 +355,9 @@ onMounted(() => {
 });
 
 async function handleUpload() {
-  if (!file.value) return;
+  if (!file.value || uploading.value) return;
+
+  uploading.value = true;
 
   try {
     const formData = new FormData();
@@ -357,8 +369,6 @@ async function handleUpload() {
       },
     });
 
-    console.log("Upload result:", data);
-
     showModal.value = false;
     file.value = null;
 
@@ -367,8 +377,9 @@ async function handleUpload() {
     alert(`Upload sukses (${data.stored} rows)`);
   } catch (err) {
     console.error("UPLOAD ERROR:", err?.response?.data || err);
-
     alert(err?.response?.data?.message || "Upload gagal");
+  } finally {
+    uploading.value = false;
   }
 }
 </script>
